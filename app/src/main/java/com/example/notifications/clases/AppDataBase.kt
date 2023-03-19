@@ -1,13 +1,13 @@
-package com.example.notifications.data
+package com.example.notifications.clases
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.notifications.data.dao.DAO_Seccion
-import com.example.notifications.data.dao.DAO_Tarea
-import com.example.notifications.data.entity.Seccion
-import com.example.notifications.data.entity.Tarea
+import com.example.notifications.clases.dao.DAO_Seccion
+import com.example.notifications.clases.dao.DAO_Tarea
+import com.example.notifications.clases.entity.Seccion
+import com.example.notifications.clases.entity.Tarea
 
 @Database(
     entities=[Seccion::class, Tarea::class],

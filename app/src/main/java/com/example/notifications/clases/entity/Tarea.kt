@@ -1,8 +1,7 @@
-package com.example.notifications.data.entity
+package com.example.notifications.clases.entity
 
 import androidx.room.*
 import java.io.Serializable
-import java.util.Date
 
 @Entity(
     tableName = "tarea",

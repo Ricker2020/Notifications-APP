@@ -1,4 +1,4 @@
-package com.example.notifications.data.entity
+package com.example.notifications.clases.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

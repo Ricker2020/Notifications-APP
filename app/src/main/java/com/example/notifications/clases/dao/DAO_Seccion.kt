@@ -1,7 +1,7 @@
-package com.example.notifications.data.dao
+package com.example.notifications.clases.dao
 
 import androidx.room.*
-import com.example.notifications.data.entity.Seccion
+import com.example.notifications.clases.entity.Seccion
 
 
 @Dao
