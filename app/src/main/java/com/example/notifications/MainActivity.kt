@@ -4,12 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notifications.clases.AppDataBase
 import com.example.notifications.clases.adapter.RcVwAdapterSeccion
+import com.example.notifications.clases.component.SeccionDialog
 import com.example.notifications.clases.entity.Seccion
 
 class MainActivity : AppCompatActivity() {
@@ -37,6 +40,17 @@ class MainActivity : AppCompatActivity() {
         val rvSeccion=findViewById<RecyclerView>(R.id.rv_view_seccions)
         initializeRecyclerView(secciones, rvSeccion)
         registerForContextMenu(rvSeccion)
+
+
+        //Crear
+        val btnSeccion=findViewById<Button>(R.id.btn_seccion)
+        btnSeccion.setOnClickListener {
+            SeccionDialog(
+                onSubmitClickListener = { nameseccion ->
+                    Toast.makeText(this, "Usted ingreso: $nameseccion", Toast.LENGTH_SHORT).show()
+                }
+            ).show(supportFragmentManager, "dialog")
+        }
 
     }
 
