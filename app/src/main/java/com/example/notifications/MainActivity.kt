@@ -18,13 +18,26 @@ import com.example.notifications.clases.entity.Seccion
 class MainActivity : AppCompatActivity() {
     private lateinit var selectedSeccion: Seccion
     private lateinit var database: AppDataBase
+    private lateinit var adapterSeccion: RcVwAdapterSeccion
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        database = AppDataBase.getInstance(this)
+        database=AppDataBase.getInstance(this)
 
+        //RecyclerView
+        initializeRecyclerView()
+
+
+        //Crear
+        addSeccion()
+
+    }
+
+    private fun initializeRecyclerView() {
+        var recyclerView=findViewById<RecyclerView>(R.id.rv_view_seccions)
         var secciones = database.seccionDao.getAll()
 
         if(secciones.isEmpty()){
@@ -36,42 +49,19 @@ class MainActivity : AppCompatActivity() {
             secciones = database.seccionDao.getAll()
         }
 
-        //RecyclerView
-        val rvSeccion=findViewById<RecyclerView>(R.id.rv_view_seccions)
-        initializeRecyclerView(secciones, rvSeccion)
-        registerForContextMenu(rvSeccion)
-
-
-        //Crear
-        val btnSeccion=findViewById<Button>(R.id.btn_seccion)
-        btnSeccion.setOnClickListener {
-            SeccionDialog(
-                onSubmitClickListener = { nameseccion ->
-                    Toast.makeText(this, "Usted ingreso: $nameseccion", Toast.LENGTH_SHORT).show()
-                }
-            ).show(supportFragmentManager, "dialog")
-        }
-
-    }
-
-    private fun initializeRecyclerView(
-        list: List<Seccion>,
-        recyclerView: RecyclerView
-    ) {
         val manager= LinearLayoutManager(this)
         //val manager= GridLayoutManager(this,2)
         val decoration= DividerItemDecoration(this, manager.orientation)
 
-        val adapter = RcVwAdapterSeccion(this, list, {seccion ->onSeccionSelected(seccion)})
-        recyclerView.adapter = adapter
+        adapterSeccion = RcVwAdapterSeccion(this, secciones, {seccion ->onSeccionSelected(seccion)})
+        recyclerView.adapter = adapterSeccion
         recyclerView.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         recyclerView.layoutManager = manager
         recyclerView.addItemDecoration(decoration)
-        adapter.notifyDataSetChanged()
+        adapterSeccion.notifyDataSetChanged()
+
+        registerForContextMenu(recyclerView)
     }
-
-
-
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -106,5 +96,18 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, ListTareas::class.java).apply {
             putExtra("seccionSelected",seccion)
         })
+    }
+
+    fun addSeccion(){
+        val btnSeccion=findViewById<Button>(R.id.btn_seccion)
+        btnSeccion.setOnClickListener {
+            SeccionDialog(
+                onSubmitClickListener = { nameseccion ->
+                    database.seccionDao.insert(Seccion(nameseccion = nameseccion))
+                    initializeRecyclerView()
+                    Toast.makeText(this, "Usted ingreso: $nameseccion", Toast.LENGTH_SHORT).show()
+                }
+            ).show(supportFragmentManager, "dialog")
+        }
     }
 }

@@ -5,27 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/input_seccion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Sección"
-        android:inputType="textPersonName"
+    <androidx.cardview.widget.CardView
+        android:layout_width="332dp"
+        android:layout_height="186dp"
+        app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.333" />
+        app:layout_constraintVertical_bias="1.0">
 
-    <Button
-        android:id="@+id/btn_add_seccion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Añadir"
-        app:layout_constraintEnd_toEndOf="@+id/input_seccion"
-        app:layout_constraintStart_toStartOf="@+id/input_seccion"
-        app:layout_constraintTop_toBottomOf="@+id/input_seccion" />
+        <EditText
+            android:id="@+id/input_seccion"
+            android:layout_width="211dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="60dp"
+            android:layout_marginTop="40dp"
+            android:hint="Sección"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/btn_add_seccion"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="105dp"
+            android:layout_marginTop="100dp"
+            android:text="Añadir" />
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

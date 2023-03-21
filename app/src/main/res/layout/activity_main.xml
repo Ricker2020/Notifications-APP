@@ -20,7 +20,9 @@
         android:id="@+id/btn_seccion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Sección"
-        tools:layout_editor_absoluteX="164dp"
-        tools:layout_editor_absoluteY="646dp" />
+        app:layout_constraintEnd_toEndOf="@+id/rv_view_seccions"
+        app:layout_constraintStart_toStartOf="@+id/rv_view_seccions"
+        app:layout_constraintTop_toBottomOf="@+id/rv_view_seccions" />
 </androidx.constraintlayout.widget.ConstraintLayout>
