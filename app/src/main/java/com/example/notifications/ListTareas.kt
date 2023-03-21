@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notifications.clases.AppDataBase
+import com.example.notifications.clases.adapter.RcVwAdapterSeccion
 import com.example.notifications.clases.adapter.RcVwAdapterTareas
 import com.example.notifications.clases.entity.Seccion
 import com.example.notifications.clases.entity.Tarea
@@ -16,47 +17,43 @@ class ListTareas : AppCompatActivity() {
     private lateinit var seccionSelected: Seccion
     private lateinit var tareaSelected: Tarea
     private lateinit var database: AppDataBase
+    private lateinit var adapterTareas: RcVwAdapterTareas
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_tareas)
 
         database = AppDataBase.getInstance(this)
-
         seccionSelected= intent.getSerializableExtra("seccionSelected") as Seccion
 
+        //RecyclerView
+        initializeRecyclerView()
 
+    }
+
+    private fun initializeRecyclerView(){
+        val recyclerView=findViewById<RecyclerView>(R.id.rv_view_tareas)
         var tareas = database.tareaDao.get(seccionSelected.id)
 
         if(tareas.isEmpty()){
-
             database.tareaDao.insert(Tarea(idseccion = seccionSelected.id, description = "Tarea 1", date = 1679442609093))
             database.tareaDao.insert(Tarea(idseccion = seccionSelected.id, description = "Tarea 2", date = 1679451609093))
             database.tareaDao.insert(Tarea(idseccion = seccionSelected.id, description = "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas \"Letraset\", las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum.", date = 123455333))
             tareas = database.tareaDao.get(seccionSelected.id)
         }
 
-        //RecyclerView
-        val rvTareas=findViewById<RecyclerView>(R.id.rv_view_tareas)
-        initializeRecyclerView(tareas, rvTareas)
-        registerForContextMenu(rvTareas)
-
-    }
-
-    private fun initializeRecyclerView(
-        list: List<Tarea>,
-        recyclerView: RecyclerView
-    ) {
         val manager= LinearLayoutManager(this)
         //val manager= GridLayoutManager(this,2)
         val decoration= DividerItemDecoration(this, manager.orientation)
 
-        val adapter = RcVwAdapterTareas(this, list, {tarea ->onTareaSelected(tarea)})
-        recyclerView.adapter = adapter
+        adapterTareas = RcVwAdapterTareas(this, tareas, {tarea ->onTareaSelected(tarea)})
+        recyclerView.adapter = adapterTareas
         recyclerView.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         recyclerView.layoutManager = manager
         recyclerView.addItemDecoration(decoration)
-        adapter.notifyDataSetChanged()
+        adapterTareas.notifyDataSetChanged()
+
+        registerForContextMenu(recyclerView)
     }
 
 
@@ -71,6 +68,8 @@ class ListTareas : AppCompatActivity() {
                 return true
             }
             R.id.menu_rv_tarea_eliminar ->{
+                database.tareaDao.delete(tareaSelected)
+                initializeRecyclerView()
                 return true
             }
             else -> super.onContextItemSelected(item)

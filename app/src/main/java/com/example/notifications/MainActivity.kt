@@ -41,11 +41,9 @@ class MainActivity : AppCompatActivity() {
         var secciones = database.seccionDao.getAll()
 
         if(secciones.isEmpty()){
-
             database.seccionDao.insert(Seccion(nameseccion = "Elementos 1"))
             database.seccionDao.insert(Seccion(nameseccion = "Elementos 2"))
             database.seccionDao.insert(Seccion(nameseccion = "Elementos 3"))
-
             secciones = database.seccionDao.getAll()
         }
 
