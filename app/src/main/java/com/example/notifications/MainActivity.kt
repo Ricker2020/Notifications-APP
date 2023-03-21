@@ -103,11 +103,23 @@ class MainActivity : AppCompatActivity() {
         btnSeccion.setOnClickListener {
             SeccionDialog(
                 onSubmitClickListener = { nameseccion ->
-                    database.seccionDao.insert(Seccion(nameseccion = nameseccion))
-                    initializeRecyclerView()
-                    Toast.makeText(this, "Usted ingreso: $nameseccion", Toast.LENGTH_SHORT).show()
+                    if(notExist(nameseccion)){
+                        database.seccionDao.insert(Seccion(nameseccion = nameseccion))
+                        initializeRecyclerView()
+                        Toast.makeText(this, "Añadió $nameseccion", Toast.LENGTH_SHORT).show()
+                    }else{
+                        Toast.makeText(this, "Sección Existente", Toast.LENGTH_SHORT).show()
+                    }
                 }
             ).show(supportFragmentManager, "dialog")
         }
+    }
+
+    fun notExist(name: String):Boolean{
+        var seccions_current=database.seccionDao.get(name)
+        if(seccions_current.isEmpty()){
+            return true
+        }
+        return false
     }
 }
