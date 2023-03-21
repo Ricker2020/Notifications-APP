@@ -7,13 +7,12 @@
 
     <TextView
         android:id="@+id/rv_tarea_description"
-        android:layout_width="wrap_content"
+        android:layout_width="338dp"
         android:layout_height="wrap_content"
         android:text="description"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.122"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.347" />
@@ -22,11 +21,31 @@
         android:id="@+id/rv_tarea_fecha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="64dp"
         android:text="fecha"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/rv_tarea_description"
-        app:layout_constraintHorizontal_bias="0.387"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_tarea_description" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/rv_tarea_hora"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:text="hora"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rv_tarea_fecha"
+        app:layout_constraintTop_toBottomOf="@+id/rv_tarea_description"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/rv_tarea_temporizador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="temporizador"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rv_tarea_hora" />
 </androidx.constraintlayout.widget.ConstraintLayout>

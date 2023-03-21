@@ -75,6 +75,8 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
             R.id.menu_rv_seccion_eliminar ->{
+                database.seccionDao.delete(selectedSeccion)
+                initializeRecyclerView()
                 return true
             }
             else -> super.onContextItemSelected(item)
