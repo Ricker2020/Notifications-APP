@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.example.notifications.R
 import com.example.notifications.databinding.DialogSeccionBinding
 
 class SeccionDialog(
@@ -18,6 +19,7 @@ class SeccionDialog(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DialogSeccionBinding.inflate(LayoutInflater.from(context))
 
+        //val builder = AlertDialog.Builder(requireActivity(), R.style.AppTheme)
         val builder = AlertDialog.Builder(requireActivity())
         builder.setView(binding.root)
 
