@@ -1,5 +1,6 @@
 package com.example.notifications.clases.adapter
 
+import android.os.CountDownTimer
 import android.util.TypedValue
 import android.view.*
 import android.widget.TextView
@@ -21,6 +22,7 @@ class RcVwAdapterTareas(
         val dateTextView: TextView
         val hourTextView: TextView
         val timerTextView: TextView
+        var timer: CountDownTimer? = null
 
         init {
             descriptionTextView = view.findViewById(R.id.rv_tarea_description)
@@ -63,26 +65,36 @@ class RcVwAdapterTareas(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val tarea = this.list[position]
-
         val date = Date(tarea.date)
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
         val timeFormat = SimpleDateFormat("HH:mm:ss")
-        val currentDate = Date()
-        val timeDiff = tarea.date - currentDate.time
-        val timerResult = if (timeDiff < 0) {
-            "00:00:00"
-        } else {
-            val hours = TimeUnit.MILLISECONDS.toHours(timeDiff)
-            val mins = TimeUnit.MILLISECONDS.toMinutes(timeDiff - TimeUnit.HOURS.toMillis(hours))
-            val secs = TimeUnit.MILLISECONDS.toSeconds(timeDiff - TimeUnit.HOURS.toMillis(hours) - TimeUnit.MINUTES.toMillis(mins))
-            String.format("%02d:%02d:%02d", hours, mins, secs)
-        }
 
         holder.descriptionTextView.text = tarea.description
         holder.dateTextView.text = dateFormat.format(date)
         holder.hourTextView.text = timeFormat.format(date)
-        holder.timerTextView.text= timerResult
 
+        val timer: CountDownTimer
+        val currentDate = Date()
+        val timeDiff = tarea.date - currentDate.time
+        if (timeDiff < 0) {
+            holder.timerTextView.text = "00:00:00"
+        } else {
+            timer = object : CountDownTimer(timeDiff, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    val hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
+                    val mins = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished - TimeUnit.HOURS.toMillis(hours))
+                    val secs = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished - TimeUnit.HOURS.toMillis(hours) - TimeUnit.MINUTES.toMillis(mins))
+                    val timerResult = String.format("%02d:%02d:%02d", hours, mins, secs)
+                    holder.timerTextView.text = timerResult
+                }
+
+                override fun onFinish() {
+                    holder.timerTextView.text = "00:00:00"
+                }
+            }
+            timer.start()
+            holder.timer = timer
+        }
     }
 
     override fun getItemCount(): Int {
