@@ -9,7 +9,9 @@
         android:id="@+id/rv_tarea_description"
         android:layout_width="338dp"
         android:layout_height="wrap_content"
+        android:justificationMode="inter_word"
         android:text="description"
+        android:textAlignment="textStart"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,23 +23,24 @@
         android:id="@+id/rv_tarea_fecha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
         android:text="fecha"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/rv_tarea_hora"
+        app:layout_constraintEnd_toStartOf="@+id/rv_tarea_hora"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rv_tarea_hora" />
 
     <TextView
         android:id="@+id/rv_tarea_hora"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
         android:text="hora"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/rv_tarea_fecha"
-        app:layout_constraintTop_toBottomOf="@+id/rv_tarea_description"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintBottom_toTopOf="@+id/divider2"
+        app:layout_constraintEnd_toEndOf="@+id/divider"
+        app:layout_constraintStart_toStartOf="@+id/divider"
+        app:layout_constraintTop_toBottomOf="@+id/divider"
+        app:layout_constraintVertical_bias="0.779" />
 
     <TextView
         android:id="@+id/rv_tarea_temporizador"
@@ -45,7 +48,24 @@
         android:layout_height="wrap_content"
         android:text="temporizador"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/rv_tarea_hora"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rv_tarea_hora"
+        app:layout_constraintTop_toTopOf="@+id/rv_tarea_hora" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="409dp"
+        android:layout_height="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_tarea_description" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="405dp"
+        android:layout_height="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/rv_tarea_hora" />
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
