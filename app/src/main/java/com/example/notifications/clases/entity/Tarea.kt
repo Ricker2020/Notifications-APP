@@ -25,7 +25,7 @@ data class Tarea(
     @ColumnInfo(name = "description")
     var description: String,
     @ColumnInfo(name = "date")
-    var date: Int
+    var date: Long
 
 ): Serializable {
     override fun toString(): String {

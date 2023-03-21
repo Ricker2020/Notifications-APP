@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.notifications.ListTareas
 import com.example.notifications.R
 import com.example.notifications.clases.entity.Tarea
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class RcVwAdapterTareas(
     private val parentContext: ListTareas,
@@ -16,10 +19,14 @@ class RcVwAdapterTareas(
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view), View.OnCreateContextMenuListener {
         val descriptionTextView: TextView
         val dateTextView: TextView
+        val hourTextView: TextView
+        val timerTextView: TextView
 
         init {
             descriptionTextView = view.findViewById(R.id.rv_tarea_description)
             dateTextView = view.findViewById(R.id.rv_tarea_fecha)
+            hourTextView = view.findViewById(R.id.rv_tarea_hora)
+            timerTextView = view.findViewById(R.id.rv_tarea_temporizador)
 
             view.setOnCreateContextMenuListener(this)
             itemView.isClickable = true
@@ -56,8 +63,26 @@ class RcVwAdapterTareas(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val tarea = this.list[position]
+
+        val date = Date(tarea.date)
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val timeFormat = SimpleDateFormat("HH:mm:ss")
+        val currentDate = Date()
+        val timeDiff = tarea.date - currentDate.time
+        val timerResult = if (timeDiff < 0) {
+            "00:00:00"
+        } else {
+            val hours = TimeUnit.MILLISECONDS.toHours(timeDiff)
+            val mins = TimeUnit.MILLISECONDS.toMinutes(timeDiff - TimeUnit.HOURS.toMillis(hours))
+            val secs = TimeUnit.MILLISECONDS.toSeconds(timeDiff - TimeUnit.HOURS.toMillis(hours) - TimeUnit.MINUTES.toMillis(mins))
+            String.format("%02d:%02d:%02d", hours, mins, secs)
+        }
+
         holder.descriptionTextView.text = tarea.description
-        holder.dateTextView.text = tarea.date.toString()
+        holder.dateTextView.text = dateFormat.format(date)
+        holder.hourTextView.text = timeFormat.format(date)
+        holder.timerTextView.text= timerResult
+
     }
 
     override fun getItemCount(): Int {
