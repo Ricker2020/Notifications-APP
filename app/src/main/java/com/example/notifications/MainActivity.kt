@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun notExist(name: String):Boolean{
-        var seccions_current=database.seccionDao.get(name)
+        var seccions_current=database.seccionDao.get(name.trim())
         if(seccions_current.isEmpty()){
             return true
         }
