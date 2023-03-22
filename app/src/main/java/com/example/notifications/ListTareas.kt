@@ -1,8 +1,10 @@
 package com.example.notifications
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +30,12 @@ class ListTareas : AppCompatActivity() {
 
         //RecyclerView
         initializeRecyclerView()
+
+        //ADD Tarea
+        val addTarea=findViewById<ImageView>(R.id.iv_add_tarea)
+        addTarea.setOnClickListener {
+            startActivity(Intent(this, CreateTarea::class.java))
+        }
 
     }
 

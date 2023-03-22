@@ -8,12 +8,23 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_view_tareas"
-        android:layout_width="376dp"
-        android:layout_height="467dp"
+        android:layout_width="362dp"
+        android:layout_height="635dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.162" />
+        app:layout_constraintVertical_bias="0.833" />
+
+    <ImageView
+        android:id="@+id/iv_add_tarea"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/add" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
