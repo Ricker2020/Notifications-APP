@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CreateTarea">
@@ -25,10 +25,12 @@
         android:inputType="textMultiLine"/>
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/create_tarea_fecha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
+        android:clickable="true"
+        android:focusable="false"
         android:ems="10"
         android:hint="Fecha"
         android:inputType="textPersonName"
@@ -37,16 +39,18 @@
         app:layout_constraintTop_toBottomOf="@+id/create_tarea_description" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/create_tarea_hora"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="112dp"
+        android:clickable="true"
+        android:focusable="false"
         android:ems="10"
         android:hint="Hora"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName2"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintEnd_toEndOf="@+id/create_tarea_fecha"
+        app:layout_constraintStart_toStartOf="@+id/create_tarea_fecha"
+        app:layout_constraintTop_toBottomOf="@+id/create_tarea_fecha" />
 
     <Button
         android:id="@+id/button"
@@ -54,10 +58,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Añadir"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName3"
+        app:layout_constraintEnd_toEndOf="@+id/create_tarea_hora"
         app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+        app:layout_constraintStart_toStartOf="@+id/create_tarea_hora"
+        app:layout_constraintTop_toBottomOf="@+id/create_tarea_hora" />
 
     <View
         android:id="@+id/divider3"

@@ -34,7 +34,9 @@ class ListTareas : AppCompatActivity() {
         //ADD Tarea
         val addTarea=findViewById<ImageView>(R.id.iv_add_tarea)
         addTarea.setOnClickListener {
-            startActivity(Intent(this, CreateTarea::class.java))
+            startActivity(Intent(this, CreateTarea::class.java).apply {
+                putExtra("seccionSelected",seccionSelected)
+            })
         }
 
     }
