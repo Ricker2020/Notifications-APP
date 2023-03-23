@@ -40,6 +40,10 @@ class ListTareas : AppCompatActivity() {
         }
 
     }
+    override fun onResume() {
+        super.onResume()
+        initializeRecyclerView()
+    }
 
     private fun initializeRecyclerView(){
         val recyclerView=findViewById<RecyclerView>(R.id.rv_view_tareas)
