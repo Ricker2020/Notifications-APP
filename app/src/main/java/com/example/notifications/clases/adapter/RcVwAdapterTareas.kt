@@ -65,35 +65,45 @@ class RcVwAdapterTareas(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val tarea = this.list[position]
-        val date = Date(tarea.date)
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-        val timeFormat = SimpleDateFormat("HH:mm:ss")
 
         holder.descriptionTextView.text = tarea.description
-        holder.dateTextView.text = dateFormat.format(date)
-        holder.hourTextView.text = timeFormat.format(date)
 
-        val timer: CountDownTimer
-        val currentDate = Date()
-        val timeDiff = tarea.date - currentDate.time
-        if (timeDiff < 0) {
-            holder.timerTextView.text = "00:00:00"
-        } else {
-            timer = object : CountDownTimer(timeDiff, 1000) {
-                override fun onTick(millisUntilFinished: Long) {
-                    val hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
-                    val mins = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished - TimeUnit.HOURS.toMillis(hours))
-                    val secs = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished - TimeUnit.HOURS.toMillis(hours) - TimeUnit.MINUTES.toMillis(mins))
-                    val timerResult = String.format("%02d:%02d:%02d", hours, mins, secs)
-                    holder.timerTextView.text = timerResult
-                }
+        val zero:Long=0
+        if(tarea.date==zero){
+            holder.dateTextView.visibility = View.INVISIBLE
+            holder.hourTextView.visibility = View.INVISIBLE
+            holder.timerTextView.visibility = View.INVISIBLE
+        }
+        else{
+            val date = Date(tarea.date)
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+            val timeFormat = SimpleDateFormat("HH:mm:ss")
 
-                override fun onFinish() {
-                    holder.timerTextView.text = "00:00:00"
+            holder.dateTextView.text = dateFormat.format(date)
+            holder.hourTextView.text = timeFormat.format(date)
+
+            val timer: CountDownTimer
+            val currentDate = Date()
+            val timeDiff = tarea.date - currentDate.time
+            if (timeDiff < 0) {
+                holder.timerTextView.text = "00:00:00"
+            } else {
+                timer = object : CountDownTimer(timeDiff, 1000) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        val hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
+                        val mins = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished - TimeUnit.HOURS.toMillis(hours))
+                        val secs = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished - TimeUnit.HOURS.toMillis(hours) - TimeUnit.MINUTES.toMillis(mins))
+                        val timerResult = String.format("%02d:%02d:%02d", hours, mins, secs)
+                        holder.timerTextView.text = timerResult
+                    }
+
+                    override fun onFinish() {
+                        holder.timerTextView.text = "00:00:00"
+                    }
                 }
+                timer.start()
+                holder.timer = timer
             }
-            timer.start()
-            holder.timer = timer
         }
     }
 

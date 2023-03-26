@@ -2,13 +2,10 @@ package com.example.notifications
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import com.example.notifications.clases.AppDataBase
 import com.example.notifications.clases.entity.Seccion
 import com.example.notifications.clases.entity.Tarea
@@ -19,7 +16,9 @@ class CreateTarea : AppCompatActivity() {
     private lateinit var seccionSelected: Seccion
     private lateinit var database: AppDataBase
     private lateinit var dateSelected: String
-    private lateinit var timeSelected: String
+    private lateinit var hourSelected: String
+    //private var timeMillis: Long=0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,11 +30,14 @@ class CreateTarea : AppCompatActivity() {
         getDate()
         getTime()
 
+        showComponent()
+
         addTarea()
 
     }
 
     fun addTarea(){
+
         val btnTarea=findViewById<Button>(R.id.btn_add_tarea)
         val descriptionEditText=findViewById<EditText>(R.id.create_tarea_description)
         btnTarea.setOnClickListener {
@@ -44,21 +46,54 @@ class CreateTarea : AppCompatActivity() {
             onBackPressed()
         }
     }
+    fun showComponent(){
+        val visibleEditText = findViewById<Switch>(R.id.create_tarea_bool)
+        val fechaEditText = findViewById<EditText>(R.id.create_tarea_fecha)
+        val horaEditText = findViewById<EditText>(R.id.create_tarea_hora)
 
-    fun timeInMillis(): Long{
-        val formatoFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val formatoTiempo = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-        val fechaCompleta = formatoFecha.parse(dateSelected)!!
-        val tiempoCompleto = formatoTiempo.parse(timeSelected)!!
-        val calendar = Calendar.getInstance()
-        calendar.time = fechaCompleta
-        val hora = tiempoCompleto.hours
-        val minuto = tiempoCompleto.minutes
-        val segundo = tiempoCompleto.seconds
-        calendar.set(Calendar.HOUR_OF_DAY, hora)
-        calendar.set(Calendar.MINUTE, minuto)
-        calendar.set(Calendar.SECOND, segundo)
-        return calendar.timeInMillis
+
+        val isChecked = visibleEditText.isChecked
+        if (isChecked) {
+            fechaEditText.visibility = View.VISIBLE
+            horaEditText.visibility = View.VISIBLE
+        } else {
+            fechaEditText.visibility = View.GONE
+            horaEditText.visibility = View.GONE
+        }
+
+        visibleEditText.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                fechaEditText.visibility = View.VISIBLE
+                horaEditText.visibility = View.VISIBLE
+            } else {
+                fechaEditText.visibility = View.GONE
+                horaEditText.visibility = View.GONE
+            }
+        }
+    }
+
+    fun timeInMillis():Long{
+        var timeMillis:Long=0
+        val visibleEditText = findViewById<Switch>(R.id.create_tarea_bool)
+        val isChecked = visibleEditText.isChecked
+        if (isChecked) {
+            val formatoFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val formatoTiempo = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+            val fechaCompleta = formatoFecha.parse(dateSelected)!!
+            val tiempoCompleto = formatoTiempo.parse(hourSelected)!!
+            val calendar = Calendar.getInstance()
+            calendar.time = fechaCompleta
+            val hora = tiempoCompleto.hours
+            val minuto = tiempoCompleto.minutes
+            val segundo = tiempoCompleto.seconds
+            calendar.set(Calendar.HOUR_OF_DAY, hora)
+            calendar.set(Calendar.MINUTE, minuto)
+            calendar.set(Calendar.SECOND, segundo)
+            timeMillis=calendar.timeInMillis
+        } else {
+            timeMillis=0
+        }
+        return timeMillis
     }
 
     fun getDate(){
@@ -88,7 +123,7 @@ class CreateTarea : AppCompatActivity() {
 
             val timePickerDialog = TimePickerDialog(this, { _, hourSelected, minuteSelected ->
                 val selectedTime = "$hourSelected:$minuteSelected:00"
-                timeSelected=selectedTime
+                this.hourSelected =selectedTime
                 time.setText(selectedTime)
             }, hour, minute, true)
             timePickerDialog.show()
