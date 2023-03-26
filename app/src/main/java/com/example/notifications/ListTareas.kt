@@ -76,7 +76,9 @@ class ListTareas : AppCompatActivity() {
     override fun onContextItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_rv_tarea_editar -> {
-                startActivity(Intent(this, EditTarea::class.java))
+                startActivity(Intent(this, EditTarea::class.java).apply {
+                    putExtra("tareaSelected",tareaSelected)
+                })
                 return true
             }
             R.id.menu_rv_tarea_eliminar ->{
@@ -89,19 +91,14 @@ class ListTareas : AppCompatActivity() {
     }
 
 
-    //Formas de obtener un elemento
-
-    //1ERA: al mantener pulsado y luego soltar
     fun setSelectedTareaId(tarea: Tarea) {
         tareaSelected = tarea
-        Toast.makeText(this, "Seleccionado: ${tarea.idtarea}", Toast.LENGTH_SHORT).show()
     }
 
-    //2DA: al hacer clic
+
     fun onTareaSelected(tarea: Tarea) {
-        Toast.makeText(this, "Seleccionado: ${tarea.idtarea}", Toast.LENGTH_SHORT).show()
-        /*startActivity(Intent(this, ListTareas::class.java).apply {
-            putExtra("seccionSelected",tarea)
-        })*/
+        startActivity(Intent(this, EditTarea::class.java).apply {
+            putExtra("tareaSelected",tarea)
+        })
     }
 }

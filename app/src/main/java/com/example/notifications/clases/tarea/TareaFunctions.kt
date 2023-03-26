@@ -63,7 +63,6 @@ class TareaFunctions {
         }
 
         fun getDate(context: Context, date:EditText ){
-            //val date=findViewById<EditText>(R.id.create_tarea_fecha)
             date.setOnClickListener {
                 val calendar = Calendar.getInstance()
                 val year = calendar.get(Calendar.YEAR)
@@ -79,8 +78,6 @@ class TareaFunctions {
         }
 
         fun getTime(context: Context, time:EditText ){
-            //val time=findViewById<EditText>(R.id.create_tarea_hora)
-
             time.setOnClickListener {
                 val calendar = Calendar.getInstance()
                 val hour = calendar.get(Calendar.HOUR_OF_DAY)
@@ -93,6 +90,8 @@ class TareaFunctions {
                 timePickerDialog.show()
             }
         }
+
+
 
 
 

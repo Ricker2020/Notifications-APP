@@ -1,10 +1,7 @@
 package com.example.notifications
 
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.*
 import com.example.notifications.clases.AppDataBase
 import com.example.notifications.clases.entity.Seccion
@@ -16,10 +13,6 @@ import java.util.*
 class CreateTarea : AppCompatActivity() {
     private lateinit var seccionSelected: Seccion
     private lateinit var database: AppDataBase
-    private lateinit var dateSelected: String
-    private lateinit var hourSelected: String
-    //private var timeMillis: Long=0
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,32 +21,31 @@ class CreateTarea : AppCompatActivity() {
         seccionSelected= intent.getSerializableExtra("seccionSelected") as Seccion
         database=AppDataBase.getInstance(this)
 
-        val date=findViewById<EditText>(R.id.create_tarea_fecha)
-        val time=findViewById<EditText>(R.id.create_tarea_hora)
-        TareaFunctions.getDate(this, date)
-        TareaFunctions.getTime(this,time)
-
-        val visibleEditText=findViewById<Switch>(R.id.create_tarea_bool)
         val fechaEditText=findViewById<EditText>(R.id.create_tarea_fecha)
         val horaEditText=findViewById<EditText>(R.id.create_tarea_hora)
+        setInfo(fechaEditText,horaEditText)
+        TareaFunctions.getDate(this, fechaEditText)
+        TareaFunctions.getTime(this,horaEditText)
 
-        TareaFunctions.showComponent(this, visibleEditText,fechaEditText,horaEditText )
-
-        addTarea()
-
+        val visibleSwitch=findViewById<Switch>(R.id.create_tarea_bool)
+        TareaFunctions.showComponent(this, visibleSwitch,fechaEditText,horaEditText )
+        addTarea(visibleSwitch,fechaEditText,horaEditText)
     }
 
-    fun addTarea(){
+    fun setInfo(fechaEditText:EditText, horaEditText:EditText){
+        val currentDate = Date()
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val timeFormat = SimpleDateFormat("HH:mm:ss")
+
+        fechaEditText.setText( dateFormat.format(currentDate))
+        horaEditText.setText( timeFormat.format(currentDate))
+    }
+
+    fun addTarea(visibleEditText: Switch,date:EditText, time:EditText){
         val btnTarea=findViewById<Button>(R.id.btn_add_tarea)
         val descriptionEditText=findViewById<EditText>(R.id.create_tarea_description)
-        val visibleEditText = findViewById<Switch>(R.id.create_tarea_bool)
-
-        val date=findViewById<EditText>(R.id.create_tarea_fecha)
-        val time=findViewById<EditText>(R.id.create_tarea_hora)
 
         btnTarea.setOnClickListener {
-
-
             database.tareaDao.insert(Tarea(
                 idseccion = seccionSelected.id,
                 description = descriptionEditText.text.toString(),
