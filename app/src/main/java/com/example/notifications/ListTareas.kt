@@ -76,9 +76,7 @@ class ListTareas : AppCompatActivity() {
     override fun onContextItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_rv_tarea_editar -> {
-                /*startActivity(Intent(this, ViewInstrument::class.java).apply {
-                    putExtra("instrumentSelected",selectedInstrument)
-                })*/
+                startActivity(Intent(this, EditTarea::class.java))
                 return true
             }
             R.id.menu_rv_tarea_eliminar ->{
