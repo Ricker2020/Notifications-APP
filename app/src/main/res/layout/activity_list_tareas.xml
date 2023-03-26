@@ -6,25 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".ListTareas">
 
+    <include
+        android:id="@+id/tarea"
+        layout="@layout/header" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_view_tareas"
-        android:layout_width="362dp"
-        android:layout_height="635dp"
+        android:layout_width="386dp"
+        android:layout_height="601dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintHorizontal_bias="0.36"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.833" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_add_tarea"
+        app:layout_constraintVertical_bias="0.272" />
 
     <ImageView
         android:id="@+id/iv_add_tarea"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/tarea"
+        app:layout_constraintHorizontal_bias="0.906"
+        app:layout_constraintStart_toStartOf="@+id/tarea"
+        app:layout_constraintTop_toBottomOf="@+id/tarea"
         app:srcCompat="@drawable/add" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

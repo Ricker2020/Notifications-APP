@@ -8,6 +8,8 @@
 
     <include
         android:id="@+id/tarea"
-        layout="@layout/activity_create_tarea"/>
+        layout="@layout/activity_create_tarea"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
