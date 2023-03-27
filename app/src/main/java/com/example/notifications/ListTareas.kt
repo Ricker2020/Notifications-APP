@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -83,9 +84,23 @@ class ListTareas : AppCompatActivity() {
     }
 
     fun sortIcon(){
-        val sortImageView=findViewById<ImageView>(R.id.iv_sort_tarea)
+        //val sortImageView=findViewById<ImageView>(R.id.iv_sort_tarea)
+        val sortUpImageView=findViewById<ImageView>(R.id.iv_sort_up)
+        val sortDownImageView=findViewById<ImageView>(R.id.iv_sort_down)
+
+        sortUpImageView.setImageResource(R.drawable.arrowupselectedrm)
+        sortDownImageView.setImageResource(R.drawable.arrowdownrm)
+
+        val sortImageView=findViewById<LinearLayout>(R.id.image_sort_tarea)
         sortImageView.setOnClickListener {
             descendant=!descendant
+            if(descendant){
+                sortUpImageView.setImageResource(R.drawable.arrowupselectedrm)
+                sortDownImageView.setImageResource(R.drawable.arrowdownrm)
+            }else{
+                sortUpImageView.setImageResource(R.drawable.arrowuprm)
+                sortDownImageView.setImageResource(R.drawable.arrowdownselectedrm)
+            }
             initializeRecyclerView()
         }
     }
