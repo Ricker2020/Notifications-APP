@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -99,7 +100,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun addSeccion(){
-        val btnSeccion=findViewById<Button>(R.id.btn_seccion)
+        val btnSeccion=findViewById<ImageView>(R.id.iv_add_seccion)
         btnSeccion.setOnClickListener {
             SeccionDialog(
                 onSubmitClickListener = { nameseccion ->

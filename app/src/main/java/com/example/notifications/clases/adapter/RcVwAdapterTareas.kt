@@ -22,6 +22,7 @@ class RcVwAdapterTareas(
         val dateTextView: TextView
         val hourTextView: TextView
         val timerTextView: TextView
+        val divider1: View
         var timer: CountDownTimer? = null
 
         init {
@@ -29,6 +30,7 @@ class RcVwAdapterTareas(
             dateTextView = view.findViewById(R.id.rv_tarea_fecha)
             hourTextView = view.findViewById(R.id.rv_tarea_hora)
             timerTextView = view.findViewById(R.id.rv_tarea_temporizador)
+            divider1= view.findViewById(R.id.tarea_divider1)
 
             view.setOnCreateContextMenuListener(this)
             itemView.isClickable = true
@@ -70,9 +72,11 @@ class RcVwAdapterTareas(
 
         val zero:Long=0
         if(tarea.date==zero){
-            holder.dateTextView.visibility = View.INVISIBLE
-            holder.hourTextView.visibility = View.INVISIBLE
-            holder.timerTextView.visibility = View.INVISIBLE
+            //holder.dateTextView.visibility = View.INVISIBLE
+            holder.dateTextView.visibility = View.GONE
+            holder.hourTextView.visibility = View.GONE
+            holder.timerTextView.visibility = View.GONE
+            holder.divider1.visibility = View.GONE
         }
         else{
             val date = Date(tarea.date)

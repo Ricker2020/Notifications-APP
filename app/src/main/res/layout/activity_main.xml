@@ -12,22 +12,23 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_view_seccions"
-        android:layout_width="386dp"
-        android:layout_height="572dp"
+        android:layout_width="387dp"
+        android:layout_height="541dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tarea"
-        app:layout_constraintVertical_bias="0.072" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_add_seccion"
+        app:layout_constraintVertical_bias="0.134" />
 
-    <Button
-        android:id="@+id/btn_seccion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Sección"
-        app:layout_constraintEnd_toEndOf="@+id/rv_view_seccions"
-        app:layout_constraintStart_toStartOf="@+id/rv_view_seccions"
-        app:layout_constraintTop_toBottomOf="@+id/rv_view_seccions" />
+    <ImageView
+        android:id="@+id/iv_add_seccion"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/tarea"
+        app:layout_constraintHorizontal_bias="0.906"
+        app:layout_constraintStart_toStartOf="@+id/tarea"
+        app:layout_constraintTop_toBottomOf="@+id/tarea"
+        app:srcCompat="@drawable/add" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
