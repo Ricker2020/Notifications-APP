@@ -13,23 +13,22 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_view_tareas"
         android:layout_width="386dp"
-        android:layout_height="601dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="550dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.36"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_add_tarea"
-        app:layout_constraintVertical_bias="0.272" />
+        app:layout_constraintTop_toBottomOf="@+id/tarea" />
 
     <ImageView
         android:id="@+id/iv_add_tarea"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/tarea"
-        app:layout_constraintHorizontal_bias="0.906"
-        app:layout_constraintStart_toStartOf="@+id/tarea"
-        app:layout_constraintTop_toBottomOf="@+id/tarea"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rv_view_tareas"
+        app:layout_constraintHorizontal_bias="0.883"
+        app:layout_constraintStart_toStartOf="@+id/rv_view_tareas"
+        app:layout_constraintTop_toBottomOf="@+id/rv_view_tareas"
         app:srcCompat="@drawable/add" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

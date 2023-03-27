@@ -8,27 +8,26 @@
 
     <include
         android:id="@+id/tarea"
-        layout="@layout/header"/>
+        layout="@layout/header" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_view_seccions"
-        android:layout_width="387dp"
-        android:layout_height="541dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="386dp"
+        android:layout_height="550dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_add_seccion"
-        app:layout_constraintVertical_bias="0.134" />
+        app:layout_constraintTop_toBottomOf="@+id/tarea" />
 
     <ImageView
         android:id="@+id/iv_add_seccion"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/tarea"
-        app:layout_constraintHorizontal_bias="0.906"
-        app:layout_constraintStart_toStartOf="@+id/tarea"
-        app:layout_constraintTop_toBottomOf="@+id/tarea"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rv_view_seccions"
+        app:layout_constraintHorizontal_bias="0.883"
+        app:layout_constraintStart_toStartOf="@+id/rv_view_seccions"
+        app:layout_constraintTop_toBottomOf="@+id/rv_view_seccions"
         app:srcCompat="@drawable/add" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
