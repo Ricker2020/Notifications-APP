@@ -34,8 +34,8 @@
 
     <LinearLayout
         android:id="@+id/image_sort_tarea"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="55dp"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/rv_view_tareas"
@@ -45,14 +45,21 @@
 
         <ImageView
             android:id="@+id/iv_sort_up"
-            android:layout_width="45dp"
+            android:layout_width="55dp"
             android:layout_height="45dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/arrowuprm" />
 
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="4dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0" />
+
         <ImageView
             android:id="@+id/iv_sort_down"
-            android:layout_width="45dp"
+            android:layout_width="55dp"
             android:layout_height="45dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/arrowdownrm" />
