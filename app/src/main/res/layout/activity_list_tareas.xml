@@ -31,4 +31,16 @@
         app:layout_constraintTop_toBottomOf="@+id/rv_view_tareas"
         app:srcCompat="@drawable/add" />
 
+    <ImageView
+        android:id="@+id/iv_sort_tarea"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rv_view_tareas"
+        app:layout_constraintHorizontal_bias="0.167"
+        app:layout_constraintStart_toStartOf="@+id/rv_view_tareas"
+        app:layout_constraintTop_toBottomOf="@+id/rv_view_tareas"
+        app:layout_constraintVertical_bias="0.535"
+        app:srcCompat="@drawable/sort" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

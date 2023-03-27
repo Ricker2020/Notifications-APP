@@ -6,12 +6,10 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notifications.clases.AppDataBase
-import com.example.notifications.clases.adapter.RcVwAdapterSeccion
 import com.example.notifications.clases.adapter.RcVwAdapterTareas
 import com.example.notifications.clases.entity.Seccion
 import com.example.notifications.clases.entity.Tarea
@@ -21,6 +19,7 @@ class ListTareas : AppCompatActivity() {
     private lateinit var tareaSelected: Tarea
     private lateinit var database: AppDataBase
     private lateinit var adapterTareas: RcVwAdapterTareas
+    var descendant=true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +41,9 @@ class ListTareas : AppCompatActivity() {
                 putExtra("seccionSelected",seccionSelected)
             })
         }
+
+        //DESCENDANT
+        sortIcon()
 
     }
     override fun onResume() {
@@ -68,7 +70,7 @@ class ListTareas : AppCompatActivity() {
             tareas=database.tareaDao.getAll()
         }
 
-        tareas=shortList(0,tareas)
+        tareas=sortList(descendant,tareas)
 
         adapterTareas = RcVwAdapterTareas(this, tareas, {tarea ->onTareaSelected(tarea)})
         recyclerView.adapter = adapterTareas
@@ -80,8 +82,15 @@ class ListTareas : AppCompatActivity() {
         registerForContextMenu(recyclerView)
     }
 
-    fun shortList(opcion:Int, list: List<Tarea>):List<Tarea>{
-        if(opcion==0){
+    fun sortIcon(){
+        val sortImageView=findViewById<ImageView>(R.id.iv_sort_tarea)
+        sortImageView.setOnClickListener {
+            descendant=!descendant
+            initializeRecyclerView()
+        }
+    }
+    fun sortList(opcion:Boolean, list: List<Tarea>):List<Tarea>{
+        if(opcion){
             return list.sortedByDescending { tarea -> tarea.date }
         }else{
             return list.sortedBy { tarea -> tarea.date }
