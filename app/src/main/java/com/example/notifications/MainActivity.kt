@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         var secciones = database.seccionDao.getAll()
 
         if(secciones.isEmpty()){
-            database.seccionDao.insert(Seccion(nameseccion = "Elementos 1"))
+            database.seccionDao.insert(Seccion(nameseccion = "General"))
             database.seccionDao.insert(Seccion(nameseccion = "Elementos 2"))
             database.seccionDao.insert(Seccion(nameseccion = "Elementos 3"))
             secciones = database.seccionDao.getAll()
@@ -70,12 +70,13 @@ class MainActivity : AppCompatActivity() {
                 })
                 return true
             }
-            R.id.menu_rv_seccion_mover ->{
-                return true
-            }
             R.id.menu_rv_seccion_eliminar ->{
-                database.seccionDao.delete(selectedSeccion)
-                initializeRecyclerView()
+                if(selectedSeccion.nameseccion=="General"){
+                    Toast.makeText(this, "No puedes eliminar esta Sección", Toast.LENGTH_SHORT).show()
+                }else{
+                    database.seccionDao.delete(selectedSeccion)
+                    initializeRecyclerView()
+                }
                 return true
             }
             else -> super.onContextItemSelected(item)

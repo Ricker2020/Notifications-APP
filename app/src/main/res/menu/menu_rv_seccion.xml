@@ -6,9 +6,6 @@
         android:id="@+id/menu_rv_seccion_ver"
         android:title="Ver Tareas" />
     <item
-        android:id="@+id/menu_rv_seccion_mover"
-        android:title="Mover a General" />
-    <item
         android:id="@+id/menu_rv_seccion_eliminar"
         android:title="Eliminar" />
 </menu>

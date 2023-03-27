@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -33,6 +34,9 @@ class ListTareas : AppCompatActivity() {
 
         //ADD Tarea
         val addTarea=findViewById<ImageView>(R.id.iv_add_tarea)
+        if(seccionSelected.nameseccion=="General"){
+            addTarea.visibility = View.INVISIBLE
+        }
         addTarea.setOnClickListener {
             startActivity(Intent(this, CreateTarea::class.java).apply {
                 putExtra("seccionSelected",seccionSelected)
@@ -60,6 +64,12 @@ class ListTareas : AppCompatActivity() {
         //val manager= GridLayoutManager(this,2)
         val decoration= DividerItemDecoration(this, manager.orientation)
 
+        if(seccionSelected.nameseccion=="General"){
+            tareas=database.tareaDao.getAll()
+        }
+
+        tareas=shortList(0,tareas)
+
         adapterTareas = RcVwAdapterTareas(this, tareas, {tarea ->onTareaSelected(tarea)})
         recyclerView.adapter = adapterTareas
         recyclerView.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
@@ -70,8 +80,13 @@ class ListTareas : AppCompatActivity() {
         registerForContextMenu(recyclerView)
     }
 
-
-
+    fun shortList(opcion:Int, list: List<Tarea>):List<Tarea>{
+        if(opcion==0){
+            return list.sortedByDescending { tarea -> tarea.date }
+        }else{
+            return list.sortedBy { tarea -> tarea.date }
+        }
+    }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
