@@ -1,9 +1,6 @@
 package com.example.notifications
 
-import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -32,10 +29,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var database: AppDataBase
     private lateinit var adapterSeccion: RcVwAdapterSeccion
 
-/*    companion object {
-        const val MY_CHANNEL_ID = "myChannel"
-    }*/
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         //USER DEFAULT
         if(database.userDao.getAll().isEmpty()){
             database.userDao.insert(User(Session.email_current,Session.password_current))
-            database.userDao.insert(User("new","pass"))
+            //database.userDao.insert(User("new","pass"))
         }
         //SECCION DEFAULT
         var secciones = database.seccionDao.getByEmail(Session.email_current)
@@ -66,7 +59,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    //EXTERNO
     fun showSession(){
         val btnSession=findViewById<ImageView>(R.id.sesion_user)
         btnSession.setOnClickListener {
@@ -89,13 +81,10 @@ class MainActivity : AppCompatActivity() {
                             SessionDialog(
                                 onSubmitClickListener = { userCredentials ->
                                     if (notExistUser(userCredentials.email)) {
-                                        database.userDao.insert(userCredentials)
-                                        Toast.makeText(this, "Nuevo Usuario", Toast.LENGTH_SHORT)
-                                            .show()
+                                        messageInsert(userCredentials)
                                     } else {
                                         if (checkUser(userCredentials)) {
-                                            Toast.makeText(this, "Correct", Toast.LENGTH_SHORT)
-                                                .show()
+                                            Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show()
                                             //LOGIN
                                             Session.email_current = userCredentials.email
                                             Session.password_current = userCredentials.password
@@ -105,7 +94,6 @@ class MainActivity : AppCompatActivity() {
                                             if(secciones.isEmpty()){
                                                 database.seccionDao.insert(Seccion(nameseccion = "General", email =Session.email_current ))
                                             }
-
                                             initializeRecyclerView()
                                         } else {
                                             Toast.makeText(
@@ -132,6 +120,21 @@ class MainActivity : AppCompatActivity() {
             popupMenu.show()
 
         }
+    }
+
+    private fun messageInsert(user: User){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Nuevo Usuario")
+        builder.setMessage("¿Deseas crear una Cuenta?")
+        builder.setPositiveButton("Sí") { _, _ ->
+            database.userDao.insert(user)
+            Toast.makeText(this, "Cuenta Creada", Toast.LENGTH_SHORT).show()
+        }
+        builder.setNegativeButton("No") { _, _ ->
+
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 
 
