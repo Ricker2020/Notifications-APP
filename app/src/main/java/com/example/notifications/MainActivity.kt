@@ -61,45 +61,56 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //EXTERNO
     fun showSession(){
         val btnSession=findViewById<ImageView>(R.id.sesion_user)
         btnSession.setOnClickListener {
             val popupMenu = PopupMenu(this, btnSession)
-
-            popupMenu.menu.add(Menu.NONE, 1, Menu.NONE, "Iniciar Sesión")
-            popupMenu.menu.add(Menu.NONE, 2, Menu.NONE, "Cerrar Sesión")
+            var optionTitle: String
+            var optionAction: Int
+            if(Session.email_current=="DEFAULT"){
+                optionTitle="Iniciar Sesión"
+                optionAction=0
+            }else{
+                optionTitle="Cerrar Sesión"
+                optionAction=1
+            }
+            popupMenu.menu.add(Menu.NONE, 1, Menu.NONE, optionTitle)
 
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     1 -> {
-                        //Session.email_current="NEW USER"
-                        //Toast.makeText(this, "Seleccionado: ${Session.email_current}", Toast.LENGTH_SHORT).show()
-                        //Session.email_current="DEFAULT"
-
-
+                        if(optionAction==0) {
                             SessionDialog(
                                 onSubmitClickListener = { userCredentials ->
-                                    if(notExistUser(userCredentials.email)){
+                                    if (notExistUser(userCredentials.email)) {
                                         database.userDao.insert(userCredentials)
-                                        Toast.makeText(this, "Nuevo Usuario", Toast.LENGTH_SHORT).show()
-                                    }else{
-                                        if(checkUser(userCredentials)){
-                                            Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(this, "Nuevo Usuario", Toast.LENGTH_SHORT)
+                                            .show()
+                                    } else {
+                                        if (checkUser(userCredentials)) {
+                                            Toast.makeText(this, "Correct", Toast.LENGTH_SHORT)
+                                                .show()
                                             //LOGIN
-                                            Session.email_current=userCredentials.email
-                                            Session.password_current=userCredentials.password
+                                            Session.email_current = userCredentials.email
+                                            Session.password_current = userCredentials.password
                                             initializeRecyclerView()
-                                        }else{
-                                            Toast.makeText(this, "Contraseña Incorrecta", Toast.LENGTH_SHORT).show()
+                                        } else {
+                                            Toast.makeText(
+                                                this,
+                                                "Contraseña Incorrecta",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                         }
                                     }
                                 }
                             ).show(supportFragmentManager, "dialog")
-
-                        true
-                    }
-                    2 -> {
-                        // Acción para la opción 2
+                        }
+                        else if(optionAction==1){
+                            Session.email_current = "DEFAULT"
+                            Session.password_current = "DEFAULT"
+                            initializeRecyclerView()
+                        }
                         true
                     }
                     else -> false
@@ -207,6 +218,8 @@ class MainActivity : AppCompatActivity() {
         return false
     }
 
+
+    //EXTERNO
     fun notExistUser(email: String):Boolean{
         var account=database.userDao.get(email)
         if(account.isEmpty()){
