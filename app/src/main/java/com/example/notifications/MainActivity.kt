@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.notifications.clases.AppDataBase
 import com.example.notifications.clases.adapter.RcVwAdapterSeccion
 import com.example.notifications.clases.component.SeccionDialog
+import com.example.notifications.clases.component.SessionDialog
 import com.example.notifications.clases.component.TareaNotification
 import com.example.notifications.clases.entity.Seccion
 import com.example.notifications.clases.entity.User
@@ -70,9 +71,25 @@ class MainActivity : AppCompatActivity() {
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     1 -> {
-                        Session.email_current="NEW USER"
-                        Toast.makeText(this, "Seleccionado: ${Session.email_current}", Toast.LENGTH_SHORT).show()
-                        Session.email_current="DEFAULT"
+                        //Session.email_current="NEW USER"
+                        //Toast.makeText(this, "Seleccionado: ${Session.email_current}", Toast.LENGTH_SHORT).show()
+                        //Session.email_current="DEFAULT"
+
+
+                            SessionDialog(
+                                onSubmitClickListener = { userCredentials ->
+                                    /*if(notExist(nameseccion)){
+                                        database.seccionDao.insert(Seccion(nameseccion = nameseccion, email = Session.email_current))
+                                        initializeRecyclerView()
+                                        Toast.makeText(this, "Añadió $nameseccion", Toast.LENGTH_SHORT).show()
+                                        //scheduleNotification()
+                                    }else{
+                                        Toast.makeText(this, "Sección Existente", Toast.LENGTH_SHORT).show()
+                                    }*/
+                                    Toast.makeText(this, "${userCredentials.email} && ${userCredentials.password}", Toast.LENGTH_SHORT).show()
+                                }
+                            ).show(supportFragmentManager, "dialog")
+
                         true
                     }
                     2 -> {
