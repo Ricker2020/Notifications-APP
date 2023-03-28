@@ -1,26 +1,35 @@
 package com.example.notifications
 
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notifications.clases.AppDataBase
 import com.example.notifications.clases.adapter.RcVwAdapterSeccion
 import com.example.notifications.clases.component.SeccionDialog
+import com.example.notifications.clases.component.TareaNotification
 import com.example.notifications.clases.entity.Seccion
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var selectedSeccion: Seccion
     private lateinit var database: AppDataBase
     private lateinit var adapterSeccion: RcVwAdapterSeccion
 
+    companion object {
+        const val MY_CHANNEL_ID = "myChannel"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +43,11 @@ class MainActivity : AppCompatActivity() {
 
         //Crear
         addSeccion()
+
+        //Canal
+        createChannel()
+
+
 
     }
 
@@ -109,6 +123,7 @@ class MainActivity : AppCompatActivity() {
                         database.seccionDao.insert(Seccion(nameseccion = nameseccion))
                         initializeRecyclerView()
                         Toast.makeText(this, "Añadió $nameseccion", Toast.LENGTH_SHORT).show()
+                        scheduleNotification()
                     }else{
                         Toast.makeText(this, "Sección Existente", Toast.LENGTH_SHORT).show()
                     }
@@ -124,4 +139,35 @@ class MainActivity : AppCompatActivity() {
         }
         return false
     }
+    private fun scheduleNotification() {
+        val intent = Intent(applicationContext, TareaNotification::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            applicationContext,
+            TareaNotification.NOTIFICATION_ID,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, Calendar.getInstance().timeInMillis + 5000, pendingIntent)
+    }
+
+    private fun createChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                MY_CHANNEL_ID,
+                "MySuperChannel",
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
+                description = "SUSCRIBETE"
+            }
+
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+
 }
