@@ -78,15 +78,18 @@ class MainActivity : AppCompatActivity() {
 
                             SessionDialog(
                                 onSubmitClickListener = { userCredentials ->
-                                    /*if(notExist(nameseccion)){
-                                        database.seccionDao.insert(Seccion(nameseccion = nameseccion, email = Session.email_current))
-                                        initializeRecyclerView()
-                                        Toast.makeText(this, "Añadió $nameseccion", Toast.LENGTH_SHORT).show()
+                                    if(notExistUser(userCredentials.email)){
+                                        database.userDao.insert(userCredentials)
+                                        Toast.makeText(this, "Añadió ", Toast.LENGTH_SHORT).show()
                                         //scheduleNotification()
                                     }else{
-                                        Toast.makeText(this, "Sección Existente", Toast.LENGTH_SHORT).show()
-                                    }*/
-                                    Toast.makeText(this, "${userCredentials.email} && ${userCredentials.password}", Toast.LENGTH_SHORT).show()
+                                        if(checkUser(userCredentials)){
+                                            Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show()
+                                        }else{
+                                            Toast.makeText(this, "Contraseña Incorrecta", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                    //Toast.makeText(this, "${userCredentials.email} && ${userCredentials.password}", Toast.LENGTH_SHORT).show()
                                 }
                             ).show(supportFragmentManager, "dialog")
 
@@ -191,6 +194,22 @@ class MainActivity : AppCompatActivity() {
     fun notExist(name: String):Boolean{
         var seccions_current=database.seccionDao.get(name.trim())
         if(seccions_current.isEmpty()){
+            return true
+        }
+        return false
+    }
+
+    fun notExistUser(email: String):Boolean{
+        var account=database.userDao.get(email)
+        if(account.isEmpty()){
+            return true
+        }
+        return false
+    }
+
+    fun checkUser(user: User):Boolean{
+        var account=database.userDao.get(user.email)
+        if(account.first().password==user.password){
             return true
         }
         return false
