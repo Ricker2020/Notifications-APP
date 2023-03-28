@@ -47,7 +47,7 @@ class CreateTarea : AppCompatActivity() {
 
         btnTarea.setOnClickListener {
             database.tareaDao.insert(Tarea(
-                idseccion = seccionSelected.id,
+                idseccion = seccionSelected.idseccion,
                 description = descriptionEditText.text.toString(),
                 date = TareaFunctions.timeInMillis(this,visibleEditText,date.text.toString(), time.text.toString())))
             Toast.makeText(this, "Añadió una nueva tarea", Toast.LENGTH_SHORT).show()

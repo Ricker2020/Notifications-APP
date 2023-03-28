@@ -140,38 +140,6 @@ class MainActivity : AppCompatActivity() {
         return false
     }
 
-    //NOTIFICATIONS
-     /*fun scheduleNotification() {
-        val intent = Intent(applicationContext, TareaNotification::class.java)
-        intent.putExtra("seccion", Seccion(nameseccion = "new seccion"))
-
-        val pendingIntent = PendingIntent.getBroadcast(
-            applicationContext,
-            TareaNotification.NOTIFICATION_ID,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, Calendar.getInstance().timeInMillis + 5000, pendingIntent)
-    }
-
-    fun createChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                MainActivity.MY_CHANNEL_ID,
-                "MySuperChannel",
-                NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                description = "SUSCRIBETE"
-            }
-
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-            notificationManager.createNotificationChannel(channel)
-        }
-    }*/
 
 
 }

@@ -1,18 +1,27 @@
 package com.example.notifications.clases.entity
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 import java.io.Serializable
 
-@Entity(tableName = "seccion")
+@Entity(
+    tableName = "seccion",
+    /*foreignKeys = [
+        ForeignKey(
+            entity = User::class,
+            parentColumns = ["email"],
+            childColumns = ["email"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index("email")]*/
+)
 data class Seccion (
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "idseccion")
-    var id: Int=0,
+    var idseccion: Int=0,
 
-    @ColumnInfo(name = "nameseccion")
+    //var email:String,
     var nameseccion: String
+
 ): Serializable
 {
     override fun toString(): String {

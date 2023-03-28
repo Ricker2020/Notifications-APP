@@ -17,14 +17,10 @@ import java.io.Serializable
 )
 data class Tarea(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "idtarea")
     var idtarea: Int = 0,
-    @ColumnInfo(name = "idseccion")
-    var idseccion: Int,
 
-    @ColumnInfo(name = "description")
+    var idseccion: Int,
     var description: String,
-    @ColumnInfo(name = "date")
     var date: Long
 
 ): Serializable {
