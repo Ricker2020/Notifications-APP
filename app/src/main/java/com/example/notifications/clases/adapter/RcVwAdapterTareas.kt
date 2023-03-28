@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.TypedValue
 import android.view.*
@@ -118,8 +119,8 @@ class RcVwAdapterTareas(
                             holder.timerTextView.text = timerResult
 
 
-
-                            if (checkToLaunch(hours.toInt(), mins.toInt(), secs.toInt()) ) {
+                            val (launch, bundle) = checkToLaunch(hours.toInt(), mins.toInt(), secs.toInt())
+                            if (launch) {
                                 //createChannel
                                 val notificationManager =
                                     holder.itemView.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -136,8 +137,9 @@ class RcVwAdapterTareas(
                                     holder.itemView.context,
                                     TareaNotification::class.java
                                 ).apply {
-                                    putExtra("tarea", tarea)
                                     putExtra("channel", "MY_CHANNEL_ID")
+                                    putExtras(bundle)
+
                                 }
                                 val pendingIntent = PendingIntent.getBroadcast(
                                     holder.itemView.context,
@@ -162,16 +164,24 @@ class RcVwAdapterTareas(
         }
     }
 
-    private fun checkToLaunch(hour: Int, min: Int, sec:Int): Boolean{
-        if(hour==1 && hour==0 && sec==0){
-            return true
-        }
-        if(hour==0 && sec==0){
-            if(min==10 || min==5 || min==0){
-                return true
+    private fun checkToLaunch(hour: Int, min: Int, sec:Int): Pair<Boolean, Bundle> {
+        var launch = false
+        var bundle = Bundle()
+
+        if (hour == 1 && min == 0 && sec == 0) {
+            bundle.putString("title", "Tarea")
+            bundle.putString("resume", "La Tarea finalizará en ${hour}hr:00min:0seg")
+            bundle.putString("bigText", "Tarea super")
+            launch = true
+        } else if (hour == 0 && sec == 0) {
+            if (min == 10 || min == 5 || min == 0) {
+                bundle.putString("title", "Tarea")
+                bundle.putString("resume", "La Tarea finalizará en ${min}min")
+                bundle.putString("bigText", "Tarea super min")
+                launch = true
             }
         }
-        return false
+        return Pair(launch, bundle)
     }
 
     override fun getItemCount(): Int {
