@@ -16,6 +16,7 @@
         android:roundIcon="@mipmap/ic_logo_task_notes_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Notifications"
+        android:author="@string/credit_author"
         tools:targetApi="31">
 
         <receiver
