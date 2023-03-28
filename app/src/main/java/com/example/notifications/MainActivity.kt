@@ -95,9 +95,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.menu_rv_seccion_eliminar ->{
                 if(selectedSeccion.nameseccion=="General"){
-                    Toast.makeText(this, "No puedes eliminar esta Sección", Toast.LENGTH_SHORT).show()
+                    messageDeleteGeneral(selectedSeccion)
                 }else{
                     database.seccionDao.delete(selectedSeccion)
+                    Toast.makeText(this, "Sección Eliminada", Toast.LENGTH_SHORT).show()
                     initializeRecyclerView()
                 }
                 return true
@@ -139,6 +140,22 @@ class MainActivity : AppCompatActivity() {
                 }
             ).show(supportFragmentManager, "dialog")
         }
+    }
+
+    fun messageDeleteGeneral(seccion: Seccion){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("General")
+        builder.setMessage("Esta Sección te permite ver todas las Tareas. Realmente planeas elimininarla?")
+        builder.setPositiveButton("Sí") { _, _ ->
+            database.seccionDao.delete(seccion)
+            Toast.makeText(this, "Sección Eliminada", Toast.LENGTH_SHORT).show()
+            initializeRecyclerView()
+        }
+        builder.setNegativeButton("No") { _, _ ->
+
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 
     fun notExist(name: String):Boolean{
