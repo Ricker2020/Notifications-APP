@@ -20,6 +20,7 @@ import com.example.notifications.clases.adapter.RcVwAdapterSeccion
 import com.example.notifications.clases.component.SeccionDialog
 import com.example.notifications.clases.component.TareaNotification
 import com.example.notifications.clases.entity.Seccion
+import com.example.notifications.clases.entity.User
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -37,6 +38,9 @@ class MainActivity : AppCompatActivity() {
 
         database=AppDataBase.getInstance(this)
 
+        //USER DEFAULT
+        database.userDao.insert(User("DEFAULT","DEFAULT"))
+
         //RecyclerView
         initializeRecyclerView()
 
@@ -44,8 +48,7 @@ class MainActivity : AppCompatActivity() {
         //Crear
         addSeccion()
 
-        //Canal
-        //createChannel()
+
 
 
 
@@ -56,9 +59,9 @@ class MainActivity : AppCompatActivity() {
         var secciones = database.seccionDao.getAll()
 
         if(secciones.isEmpty()){
-            database.seccionDao.insert(Seccion(nameseccion = "General"))
-            database.seccionDao.insert(Seccion(nameseccion = "Elementos 2"))
-            database.seccionDao.insert(Seccion(nameseccion = "Elementos 3"))
+            database.seccionDao.insert(Seccion(nameseccion = "General", email = "DEFAULT"))
+            database.seccionDao.insert(Seccion(nameseccion = "Elementos 2",email = "DEFAULT"))
+            database.seccionDao.insert(Seccion(nameseccion = "Elementos 3",email = "DEFAULT"))
             secciones = database.seccionDao.getAll()
         }
 
@@ -120,7 +123,7 @@ class MainActivity : AppCompatActivity() {
             SeccionDialog(
                 onSubmitClickListener = { nameseccion ->
                     if(notExist(nameseccion)){
-                        database.seccionDao.insert(Seccion(nameseccion = nameseccion))
+                        database.seccionDao.insert(Seccion(nameseccion = nameseccion, email = "DEFAULT"))
                         initializeRecyclerView()
                         Toast.makeText(this, "Añadió $nameseccion", Toast.LENGTH_SHORT).show()
                         //scheduleNotification()

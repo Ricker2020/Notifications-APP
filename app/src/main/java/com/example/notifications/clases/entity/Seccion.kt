@@ -5,7 +5,7 @@ import java.io.Serializable
 
 @Entity(
     tableName = "seccion",
-    /*foreignKeys = [
+    foreignKeys = [
         ForeignKey(
             entity = User::class,
             parentColumns = ["email"],
@@ -13,13 +13,13 @@ import java.io.Serializable
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index("email")]*/
+    indices = [Index("email")]
 )
 data class Seccion (
     @PrimaryKey(autoGenerate = true)
     var idseccion: Int=0,
 
-    //var email:String,
+    var email:String,
     var nameseccion: String
 
 ): Serializable
