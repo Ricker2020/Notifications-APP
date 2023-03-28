@@ -8,17 +8,20 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.example.notifications.MainActivity
+import com.example.notifications.clases.entity.Seccion
+import com.example.notifications.clases.entity.Tarea
 
 class TareaNotification : BroadcastReceiver() {
     companion object{
         const val NOTIFICATION_ID = 1
     }
 
-    override fun onReceive(context: Context, p1: Intent?) {
-        createSimpleNotification(context)
+    override fun onReceive(context: Context, intent: Intent) {
+        val seccion = intent.getSerializableExtra("seccion") as Seccion
+        createSimpleNotification(context,seccion)
     }
 
-    private fun createSimpleNotification(context: Context) {
+    private fun createSimpleNotification(context: Context, seccion: Seccion) {
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -28,7 +31,7 @@ class TareaNotification : BroadcastReceiver() {
 
         val notification = NotificationCompat.Builder(context, MainActivity.MY_CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_delete)
-            .setContentTitle("Title")
+            .setContentTitle(seccion.nameseccion)
             .setContentText("Resume")
             .setStyle(
                 NotificationCompat.BigTextStyle()

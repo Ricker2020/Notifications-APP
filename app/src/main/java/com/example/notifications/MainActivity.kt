@@ -141,6 +141,8 @@ class MainActivity : AppCompatActivity() {
     }
     private fun scheduleNotification() {
         val intent = Intent(applicationContext, TareaNotification::class.java)
+        intent.putExtra("seccion", Seccion(nameseccion = "new seccion"))
+
         val pendingIntent = PendingIntent.getBroadcast(
             applicationContext,
             TareaNotification.NOTIFICATION_ID,
