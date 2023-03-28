@@ -118,8 +118,8 @@ class RcVwAdapterTareas(
                             holder.timerTextView.text = timerResult
 
 
-                            //val five_mins=300000L
-                            if (mins.toInt() == 5 ) {
+
+                            if (checkToLaunch(hours.toInt(), mins.toInt(), secs.toInt()) ) {
                                 //createChannel
                                 val notificationManager =
                                     holder.itemView.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -160,6 +160,18 @@ class RcVwAdapterTareas(
                 timer.start()
             }
         }
+    }
+
+    private fun checkToLaunch(hour: Int, min: Int, sec:Int): Boolean{
+        if(hour==1 && hour==0 && sec==0){
+            return true
+        }
+        if(hour==0 && sec==0){
+            if(min==10 || min==5 || min==0){
+                return true
+            }
+        }
+        return false
     }
 
     override fun getItemCount(): Int {
