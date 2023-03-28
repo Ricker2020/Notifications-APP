@@ -10,6 +10,9 @@ interface DAO_Seccion {
     @Query("SELECT * FROM seccion")
     fun getAll(): List<Seccion>
 
+    @Query("SELECT * FROM seccion WHERE email = :email")
+    fun getByEmail(email:String): List<Seccion>
+
     @Query("SELECT * FROM seccion WHERE nameseccion = :name")
     fun get(name: String): List<Seccion>
 

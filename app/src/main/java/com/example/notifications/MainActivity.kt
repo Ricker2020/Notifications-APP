@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         //USER DEFAULT
         if(database.userDao.getAll().isEmpty()){
             database.userDao.insert(User(Session.email_current,Session.password_current))
+            database.userDao.insert(User("new","pass"))
         }
 
         //RecyclerView
@@ -80,16 +81,18 @@ class MainActivity : AppCompatActivity() {
                                 onSubmitClickListener = { userCredentials ->
                                     if(notExistUser(userCredentials.email)){
                                         database.userDao.insert(userCredentials)
-                                        Toast.makeText(this, "Añadió ", Toast.LENGTH_SHORT).show()
-                                        //scheduleNotification()
+                                        Toast.makeText(this, "Nuevo Usuario", Toast.LENGTH_SHORT).show()
                                     }else{
                                         if(checkUser(userCredentials)){
                                             Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show()
+                                            //LOGIN
+                                            Session.email_current=userCredentials.email
+                                            Session.password_current=userCredentials.password
+                                            initializeRecyclerView()
                                         }else{
                                             Toast.makeText(this, "Contraseña Incorrecta", Toast.LENGTH_SHORT).show()
                                         }
                                     }
-                                    //Toast.makeText(this, "${userCredentials.email} && ${userCredentials.password}", Toast.LENGTH_SHORT).show()
                                 }
                             ).show(supportFragmentManager, "dialog")
 
@@ -112,13 +115,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun initializeRecyclerView() {
         var recyclerView=findViewById<RecyclerView>(R.id.rv_view_seccions)
-        var secciones = database.seccionDao.getAll()
+        var secciones = database.seccionDao.getByEmail(Session.email_current)
 
         if(secciones.isEmpty()){
             database.seccionDao.insert(Seccion(nameseccion = "General", email =Session.email_current ))
             database.seccionDao.insert(Seccion(nameseccion = "Elementos 2",email = Session.email_current))
             database.seccionDao.insert(Seccion(nameseccion = "Elementos 3",email = Session.email_current))
-            secciones = database.seccionDao.getAll()
+            database.seccionDao.insert(Seccion(nameseccion = "Elementos 4",email = "new"))
+            secciones = database.seccionDao.getByEmail(Session.email_current)
         }
 
         val manager= LinearLayoutManager(this)
@@ -195,6 +199,10 @@ class MainActivity : AppCompatActivity() {
         var seccions_current=database.seccionDao.get(name.trim())
         if(seccions_current.isEmpty()){
             return true
+        }else{
+            if(seccions_current.first().email!=Session.email_current){
+                return true
+            }
         }
         return false
     }
