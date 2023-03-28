@@ -121,6 +121,8 @@ class RcVwAdapterTareas(
 
                             val (launch, bundle) = checkToLaunch(hours.toInt(), mins.toInt(), secs.toInt())
                             if (launch) {
+                                bundle.putString("bigText", tarea.description)
+
                                 //createChannel
                                 val notificationManager =
                                     holder.itemView.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -167,17 +169,21 @@ class RcVwAdapterTareas(
     private fun checkToLaunch(hour: Int, min: Int, sec:Int): Pair<Boolean, Bundle> {
         var launch = false
         var bundle = Bundle()
+        bundle.putString("title", "Tarea")
+        bundle.putString("resume", "La Tarea finalizará en ${hour}hr")
+        bundle.putString("bigText", "Text")
 
-        if (hour == 1 && min == 0 && sec == 0) {
-            bundle.putString("title", "Tarea")
+        //5 sec for the delay
+        if (hour == 1 && min == 0 && sec == 5) {
             bundle.putString("resume", "La Tarea finalizará en ${hour}hr:00min:0seg")
-            bundle.putString("bigText", "Tarea super")
             launch = true
-        } else if (hour == 0 && sec == 0) {
-            if (min == 10 || min == 5 || min == 0) {
-                bundle.putString("title", "Tarea")
+        } else if (hour == 0 && sec == 5) {
+            if (min == 10 || min == 5 || min == 1) {
                 bundle.putString("resume", "La Tarea finalizará en ${min}min")
-                bundle.putString("bigText", "Tarea super min")
+                launch = true
+            }
+            else if (min == 0) {
+                bundle.putString("resume", "La Tarea ha finalizadó")
                 launch = true
             }
         }
