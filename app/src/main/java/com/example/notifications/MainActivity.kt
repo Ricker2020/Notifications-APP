@@ -9,8 +9,10 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +23,7 @@ import com.example.notifications.clases.component.SeccionDialog
 import com.example.notifications.clases.component.TareaNotification
 import com.example.notifications.clases.entity.Seccion
 import com.example.notifications.clases.entity.User
+import com.example.notifications.clases.session.Session
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -40,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         //USER DEFAULT
         if(database.userDao.getAll().isEmpty()){
-            database.userDao.insert(User("DEFAULT","DEFAULT"))
+            database.userDao.insert(User(Session.email_current,Session.password_current))
         }
 
         //RecyclerView
@@ -50,20 +53,51 @@ class MainActivity : AppCompatActivity() {
         //Crear
         addSeccion()
 
-
-
+        //SESSION
+        showSession()
 
 
     }
+
+    fun showSession(){
+        val btnSession=findViewById<ImageView>(R.id.sesion_user)
+        btnSession.setOnClickListener {
+            val popupMenu = PopupMenu(this, btnSession)
+
+            popupMenu.menu.add(Menu.NONE, 1, Menu.NONE, "Iniciar Sesión")
+            popupMenu.menu.add(Menu.NONE, 2, Menu.NONE, "Cerrar Sesión")
+
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    1 -> {
+                        Session.email_current="NEW USER"
+                        Toast.makeText(this, "Seleccionado: ${Session.email_current}", Toast.LENGTH_SHORT).show()
+                        Session.email_current="DEFAULT"
+                        true
+                    }
+                    2 -> {
+                        // Acción para la opción 2
+                        true
+                    }
+                    else -> false
+                }
+            }
+
+            popupMenu.show()
+
+        }
+    }
+
+
 
     private fun initializeRecyclerView() {
         var recyclerView=findViewById<RecyclerView>(R.id.rv_view_seccions)
         var secciones = database.seccionDao.getAll()
 
         if(secciones.isEmpty()){
-            database.seccionDao.insert(Seccion(nameseccion = "General", email = "DEFAULT"))
-            database.seccionDao.insert(Seccion(nameseccion = "Elementos 2",email = "DEFAULT"))
-            database.seccionDao.insert(Seccion(nameseccion = "Elementos 3",email = "DEFAULT"))
+            database.seccionDao.insert(Seccion(nameseccion = "General", email =Session.email_current ))
+            database.seccionDao.insert(Seccion(nameseccion = "Elementos 2",email = Session.email_current))
+            database.seccionDao.insert(Seccion(nameseccion = "Elementos 3",email = Session.email_current))
             secciones = database.seccionDao.getAll()
         }
 
@@ -125,7 +159,7 @@ class MainActivity : AppCompatActivity() {
             SeccionDialog(
                 onSubmitClickListener = { nameseccion ->
                     if(notExist(nameseccion)){
-                        database.seccionDao.insert(Seccion(nameseccion = nameseccion, email = "DEFAULT"))
+                        database.seccionDao.insert(Seccion(nameseccion = nameseccion, email = Session.email_current))
                         initializeRecyclerView()
                         Toast.makeText(this, "Añadió $nameseccion", Toast.LENGTH_SHORT).show()
                         //scheduleNotification()

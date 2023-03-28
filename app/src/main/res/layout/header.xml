@@ -19,7 +19,7 @@
         app:srcCompat="@drawable/tasknotes" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/sesion_user"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginStart="60dp"
