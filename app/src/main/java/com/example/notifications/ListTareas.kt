@@ -14,6 +14,7 @@ import com.example.notifications.clases.AppDataBase
 import com.example.notifications.clases.adapter.RcVwAdapterTareas
 import com.example.notifications.clases.entity.Seccion
 import com.example.notifications.clases.entity.Tarea
+import com.example.notifications.clases.session.Session
 
 class ListTareas : AppCompatActivity() {
     private lateinit var seccionSelected: Seccion
@@ -52,23 +53,33 @@ class ListTareas : AppCompatActivity() {
         initializeRecyclerView()
     }
 
+    private fun listGeneral(): List<Tarea>{
+        var secciones = database.seccionDao.getByEmail(Session.email_current)
+        var tareasList = mutableListOf<Tarea>()
+        for (seccion in secciones){
+            tareasList.addAll(database.tareaDao.get(seccion.idseccion))
+        }
+        return tareasList
+    }
+
     private fun initializeRecyclerView(){
         val recyclerView=findViewById<RecyclerView>(R.id.rv_view_tareas)
         var tareas = database.tareaDao.get(seccionSelected.idseccion)
 
-        if(tareas.isEmpty()){
+        /*if(tareas.isEmpty()){
             database.tareaDao.insert(Tarea(idseccion = seccionSelected.idseccion, description = "Tarea 1", date = 1679442609093))
             database.tareaDao.insert(Tarea(idseccion = seccionSelected.idseccion, description = "Tarea 2", date = 1679451609093))
             database.tareaDao.insert(Tarea(idseccion = seccionSelected.idseccion, description = "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas \"Letraset\", las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum.", date = 123455333))
             tareas = database.tareaDao.get(seccionSelected.idseccion)
-        }
+        }*/
 
         val manager= LinearLayoutManager(this)
         //val manager= GridLayoutManager(this,2)
         val decoration= DividerItemDecoration(this, manager.orientation)
 
         if(seccionSelected.nameseccion=="General"){
-            tareas=database.tareaDao.getAll()
+            //tareas=database.tareaDao.getAll()
+            tareas=listGeneral()
         }
 
         tareas=sortList(descendant,tareas)

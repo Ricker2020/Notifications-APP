@@ -47,6 +47,11 @@ class MainActivity : AppCompatActivity() {
             database.userDao.insert(User(Session.email_current,Session.password_current))
             database.userDao.insert(User("new","pass"))
         }
+        //SECCION DEFAULT
+        var secciones = database.seccionDao.getByEmail(Session.email_current)
+        if(secciones.isEmpty()){
+            database.seccionDao.insert(Seccion(nameseccion = "General", email =Session.email_current ))
+        }
 
         //RecyclerView
         initializeRecyclerView()
@@ -94,6 +99,13 @@ class MainActivity : AppCompatActivity() {
                                             //LOGIN
                                             Session.email_current = userCredentials.email
                                             Session.password_current = userCredentials.password
+
+                                            //SECCION DEFAULT
+                                            var secciones = database.seccionDao.getByEmail(Session.email_current)
+                                            if(secciones.isEmpty()){
+                                                database.seccionDao.insert(Seccion(nameseccion = "General", email =Session.email_current ))
+                                            }
+
                                             initializeRecyclerView()
                                         } else {
                                             Toast.makeText(
@@ -128,13 +140,13 @@ class MainActivity : AppCompatActivity() {
         var recyclerView=findViewById<RecyclerView>(R.id.rv_view_seccions)
         var secciones = database.seccionDao.getByEmail(Session.email_current)
 
-        if(secciones.isEmpty()){
+        /*if(secciones.isEmpty()){
             database.seccionDao.insert(Seccion(nameseccion = "General", email =Session.email_current ))
             database.seccionDao.insert(Seccion(nameseccion = "Elementos 2",email = Session.email_current))
             database.seccionDao.insert(Seccion(nameseccion = "Elementos 3",email = Session.email_current))
             database.seccionDao.insert(Seccion(nameseccion = "Elementos 4",email = "new"))
             secciones = database.seccionDao.getByEmail(Session.email_current)
-        }
+        }*/
 
         val manager= LinearLayoutManager(this)
         //val manager= GridLayoutManager(this,2)
