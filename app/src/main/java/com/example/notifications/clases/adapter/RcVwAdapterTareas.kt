@@ -117,8 +117,9 @@ class RcVwAdapterTareas(
                             val timerResult = String.format("%02d:%02d:%02d", hours, mins, secs)
                             holder.timerTextView.text = timerResult
 
-                            // Crear notificación cuando el temporizador llega a 10 o 5 minutos
-                            if (mins.toInt() == 10 || mins.toInt() == 5) {
+
+                            //val five_mins=300000L
+                            if (mins.toInt() == 5 ) {
                                 //createChannel
                                 val notificationManager =
                                     holder.itemView.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
