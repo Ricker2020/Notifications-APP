@@ -1,9 +1,7 @@
 package com.example.notifications
 
 import android.app.*
-import android.content.Context
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -18,7 +16,6 @@ import com.example.notifications.clases.AppDataBase
 import com.example.notifications.clases.adapter.RcVwAdapterSeccion
 import com.example.notifications.clases.component.SeccionDialog
 import com.example.notifications.clases.component.SessionDialog
-import com.example.notifications.clases.component.TareaNotification
 import com.example.notifications.clases.entity.Seccion
 import com.example.notifications.clases.entity.User
 import com.example.notifications.clases.session.Session
@@ -173,15 +170,17 @@ class MainActivity : AppCompatActivity() {
 
     //ONLY HERE
     private fun showSession(){
-        val btnSession=findViewById<ImageView>(R.id.sesion_user)
-        btnSession.setOnClickListener {
-            val popupMenu = PopupMenu(this, btnSession)
+        val sessionImageView=findViewById<ImageView>(R.id.sesion_user)
+        sessionImageView.setOnClickListener {
+            val popupMenu = PopupMenu(this, sessionImageView)
             var optionTitle: String
             var optionAction: Int
             if(Session.email_current=="DEFAULT"){
+                sessionImageView.setImageResource(R.drawable.user)
                 optionTitle="Iniciar Sesión"
                 optionAction=0
             }else{
+                sessionImageView.setImageResource(R.drawable.userlogin)
                 optionTitle="Cerrar Sesión"
                 optionAction=1
             }
@@ -197,7 +196,8 @@ class MainActivity : AppCompatActivity() {
                                         messageInsert(userCredentials)
                                     } else {
                                         if (checkUser(userCredentials)) {
-                                            Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show()
+                                            //Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show()
+                                            sessionImageView.setImageResource(R.drawable.userlogin)
                                             //LOGIN
                                             Session.email_current = userCredentials.email
                                             Session.password_current = userCredentials.password
@@ -223,6 +223,7 @@ class MainActivity : AppCompatActivity() {
                         else if(optionAction==1){
                             Session.email_current = "DEFAULT"
                             Session.password_current = "DEFAULT"
+                            sessionImageView.setImageResource(R.drawable.user)
                             initializeRecyclerView()
                             //startActivity(Intent(this, MainActivity::class.java))
                         }
