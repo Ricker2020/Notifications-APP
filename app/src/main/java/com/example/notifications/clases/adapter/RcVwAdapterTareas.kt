@@ -131,7 +131,12 @@ class RcVwAdapterTareas(
                                         "MY_CHANNEL_ID",
                                         "Channel Name",
                                         NotificationManager.IMPORTANCE_DEFAULT
-                                    )
+                                    ).apply {
+                                        enableLights(false)
+                                        enableVibration(false)
+                                        setShowBadge(false)
+                                        lockscreenVisibility = NotificationCompat.VISIBILITY_PRIVATE
+                                    }
                                     notificationManager.createNotificationChannel(channel)
                                 }
                                 //scheduleNotification
