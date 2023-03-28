@@ -39,7 +39,9 @@ class MainActivity : AppCompatActivity() {
         database=AppDataBase.getInstance(this)
 
         //USER DEFAULT
-        database.userDao.insert(User("DEFAULT","DEFAULT"))
+        if(database.userDao.getAll().isEmpty()){
+            database.userDao.insert(User("DEFAULT","DEFAULT"))
+        }
 
         //RecyclerView
         initializeRecyclerView()
