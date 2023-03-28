@@ -2,10 +2,8 @@ package com.example.notifications
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Switch
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import com.example.notifications.clases.AppDataBase
 import com.example.notifications.clases.entity.Tarea
 import com.example.notifications.clases.tarea.TareaFunctions
@@ -34,6 +32,10 @@ class EditTarea : AppCompatActivity() {
 
         TareaFunctions.showComponent(this, visibleSwitch,fechaEditText,horaEditText )
         editTarea(descriptionEditText,visibleSwitch,fechaEditText,horaEditText)
+
+        //SESSION
+        val btnSession=findViewById<ImageView>(R.id.sesion_user)
+        btnSession.visibility = View.INVISIBLE
     }
 
     fun setInfo(description:EditText,fechaEditText:EditText, horaEditText:EditText,visibleEditText:Switch){

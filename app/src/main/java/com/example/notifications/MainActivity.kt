@@ -56,87 +56,7 @@ class MainActivity : AppCompatActivity() {
         //SESSION
         showSession()
 
-
     }
-
-    fun showSession(){
-        val btnSession=findViewById<ImageView>(R.id.sesion_user)
-        btnSession.setOnClickListener {
-            val popupMenu = PopupMenu(this, btnSession)
-            var optionTitle: String
-            var optionAction: Int
-            if(Session.email_current=="DEFAULT"){
-                optionTitle="Iniciar Sesión"
-                optionAction=0
-            }else{
-                optionTitle="Cerrar Sesión"
-                optionAction=1
-            }
-            popupMenu.menu.add(Menu.NONE, 1, Menu.NONE, optionTitle)
-
-            popupMenu.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    1 -> {
-                        if(optionAction==0) {
-                            SessionDialog(
-                                onSubmitClickListener = { userCredentials ->
-                                    if (notExistUser(userCredentials.email)) {
-                                        messageInsert(userCredentials)
-                                    } else {
-                                        if (checkUser(userCredentials)) {
-                                            Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show()
-                                            //LOGIN
-                                            Session.email_current = userCredentials.email
-                                            Session.password_current = userCredentials.password
-
-                                            //SECCION DEFAULT
-                                            var secciones = database.seccionDao.getByEmail(Session.email_current)
-                                            if(secciones.isEmpty()){
-                                                database.seccionDao.insert(Seccion(nameseccion = "General", email =Session.email_current ))
-                                            }
-                                            initializeRecyclerView()
-                                        } else {
-                                            Toast.makeText(
-                                                this,
-                                                "Contraseña Incorrecta",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        }
-                                    }
-                                }
-                            ).show(supportFragmentManager, "dialog")
-                        }
-                        else if(optionAction==1){
-                            Session.email_current = "DEFAULT"
-                            Session.password_current = "DEFAULT"
-                            initializeRecyclerView()
-                        }
-                        true
-                    }
-                    else -> false
-                }
-            }
-
-            popupMenu.show()
-
-        }
-    }
-
-    private fun messageInsert(user: User){
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Nuevo Usuario")
-        builder.setMessage("¿Deseas crear una Cuenta?")
-        builder.setPositiveButton("Sí") { _, _ ->
-            database.userDao.insert(user)
-            Toast.makeText(this, "Cuenta Creada", Toast.LENGTH_SHORT).show()
-        }
-        builder.setNegativeButton("No") { _, _ ->
-
-        }
-        val dialog = builder.create()
-        dialog.show()
-    }
-
 
 
     private fun initializeRecyclerView() {
@@ -235,6 +155,72 @@ class MainActivity : AppCompatActivity() {
 
 
     //EXTERNO
+
+    private fun showSession(){
+        val btnSession=findViewById<ImageView>(R.id.sesion_user)
+        btnSession.setOnClickListener {
+            val popupMenu = PopupMenu(this, btnSession)
+            var optionTitle: String
+            var optionAction: Int
+            if(Session.email_current=="DEFAULT"){
+                optionTitle="Iniciar Sesión"
+                optionAction=0
+            }else{
+                optionTitle="Cerrar Sesión"
+                optionAction=1
+            }
+            popupMenu.menu.add(Menu.NONE, 1, Menu.NONE, optionTitle)
+
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    1 -> {
+                        if(optionAction==0) {
+                            SessionDialog(
+                                onSubmitClickListener = { userCredentials ->
+                                    if (notExistUser(userCredentials.email)) {
+                                        messageInsert(userCredentials)
+                                    } else {
+                                        if (checkUser(userCredentials)) {
+                                            Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show()
+                                            //LOGIN
+                                            Session.email_current = userCredentials.email
+                                            Session.password_current = userCredentials.password
+
+                                            //SECCION DEFAULT
+                                            var secciones = database.seccionDao.getByEmail(Session.email_current)
+                                            if(secciones.isEmpty()){
+                                                database.seccionDao.insert(Seccion(nameseccion = "General", email =Session.email_current ))
+                                            }
+                                            initializeRecyclerView()
+                                            //startActivity(Intent(this, MainActivity::class.java))
+                                        } else {
+                                            Toast.makeText(
+                                                this,
+                                                "Contraseña Incorrecta",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }
+                                }
+                            ).show(supportFragmentManager, "dialog")
+                        }
+                        else if(optionAction==1){
+                            Session.email_current = "DEFAULT"
+                            Session.password_current = "DEFAULT"
+                            initializeRecyclerView()
+                            //startActivity(Intent(this, MainActivity::class.java))
+                        }
+                        true
+                    }
+                    else -> false
+                }
+            }
+
+            popupMenu.show()
+
+        }
+    }
+
     fun notExistUser(email: String):Boolean{
         var account=database.userDao.get(email)
         if(account.isEmpty()){
@@ -249,6 +235,21 @@ class MainActivity : AppCompatActivity() {
             return true
         }
         return false
+    }
+
+    private fun messageInsert(user: User){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Nuevo Usuario")
+        builder.setMessage("¿Deseas crear una Cuenta?")
+        builder.setPositiveButton("Sí") { _, _ ->
+            database.userDao.insert(user)
+            Toast.makeText(this, "Cuenta Creada", Toast.LENGTH_SHORT).show()
+        }
+        builder.setNegativeButton("No") { _, _ ->
+
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 
 

@@ -1,19 +1,25 @@
 package com.example.notifications
 
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notifications.clases.AppDataBase
 import com.example.notifications.clases.adapter.RcVwAdapterTareas
+import com.example.notifications.clases.component.SessionDialog
 import com.example.notifications.clases.entity.Seccion
 import com.example.notifications.clases.entity.Tarea
+import com.example.notifications.clases.entity.User
 import com.example.notifications.clases.session.Session
 
 class ListTareas : AppCompatActivity() {
@@ -47,6 +53,9 @@ class ListTareas : AppCompatActivity() {
         //DESCENDANT
         sortIcon()
 
+        //SESSION
+        val btnSession=findViewById<ImageView>(R.id.sesion_user)
+        btnSession.visibility = View.INVISIBLE
     }
     override fun onResume() {
         super.onResume()
@@ -151,4 +160,6 @@ class ListTareas : AppCompatActivity() {
             putExtra("tareaSelected",tarea)
         })
     }
+
+
 }
