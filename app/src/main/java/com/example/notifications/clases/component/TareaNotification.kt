@@ -1,5 +1,6 @@
 package com.example.notifications.clases.component
 
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
@@ -8,6 +9,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.example.notifications.MainActivity
+import com.example.notifications.clases.adapter.RcVwAdapterTareas
 import com.example.notifications.clases.entity.Seccion
 import com.example.notifications.clases.entity.Tarea
 
@@ -17,21 +19,22 @@ class TareaNotification : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-        val seccion = intent.getSerializableExtra("seccion") as Seccion
-        createSimpleNotification(context,seccion)
+        val tarea = intent.getSerializableExtra("tarea") as Tarea
+        val MY_CHANNEL_ID=intent.getStringExtra("channel")!!
+        createSimpleNotification(context,tarea,MY_CHANNEL_ID)
     }
 
-    private fun createSimpleNotification(context: Context, seccion: Seccion) {
-        val intent = Intent(context, MainActivity::class.java).apply {
+    private fun createSimpleNotification(context: Context, tarea: Tarea, MY_CHANNEL_ID:String) {
+        val intent = Intent(context, RcVwAdapterTareas::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 
         val flag = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
         val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, flag)
 
-        val notification = NotificationCompat.Builder(context, MainActivity.MY_CHANNEL_ID)
+        val notification = NotificationCompat.Builder(context, MY_CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_delete)
-            .setContentTitle(seccion.nameseccion)
+            .setContentTitle(tarea.date.toString())
             .setContentText("Resume")
             .setStyle(
                 NotificationCompat.BigTextStyle()

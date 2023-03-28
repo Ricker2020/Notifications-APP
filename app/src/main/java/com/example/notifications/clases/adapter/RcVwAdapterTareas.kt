@@ -1,12 +1,25 @@
 package com.example.notifications.clases.adapter
 
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Context.ALARM_SERVICE
+import android.content.Intent
+import android.os.Build
 import android.os.CountDownTimer
 import android.util.TypedValue
 import android.view.*
 import android.widget.TextView
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notifications.ListTareas
+import com.example.notifications.MainActivity
 import com.example.notifications.R
+import com.example.notifications.clases.component.TareaNotification
+import com.example.notifications.clases.entity.Seccion
 import com.example.notifications.clases.entity.Tarea
 import java.text.SimpleDateFormat
 import java.util.*
@@ -16,6 +29,7 @@ class RcVwAdapterTareas(
     private val parentContext: ListTareas,
     private val list: List<Tarea>,
     private val onClickListener: (tarea: Tarea) -> Unit
+
 ): RecyclerView.Adapter<RcVwAdapterTareas.MyViewHolder>() {
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view), View.OnCreateContextMenuListener {
         val descriptionTextView: TextView
@@ -24,6 +38,7 @@ class RcVwAdapterTareas(
         val timerTextView: TextView
         val divider1: View
         var timer: CountDownTimer? = null
+
 
         init {
             descriptionTextView = view.findViewById(R.id.rv_tarea_description)
@@ -44,6 +59,7 @@ class RcVwAdapterTareas(
                 onClickListener(list[adapterPosition])
             }
         }
+
 
         override fun onCreateContextMenu(menu: ContextMenu?, view: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
             if (menu != null) {
@@ -86,27 +102,61 @@ class RcVwAdapterTareas(
             holder.dateTextView.text = dateFormat.format(date)
             holder.hourTextView.text = timeFormat.format(date)
 
-            val timer: CountDownTimer
+            var timer: CountDownTimer? = holder.timer
             val currentDate = Date()
             val timeDiff = tarea.date - currentDate.time
             if (timeDiff < 0) {
                 holder.timerTextView.text = "00:00:00"
             } else {
-                timer = object : CountDownTimer(timeDiff, 1000) {
-                    override fun onTick(millisUntilFinished: Long) {
-                        val hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
-                        val mins = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished - TimeUnit.HOURS.toMillis(hours))
-                        val secs = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished - TimeUnit.HOURS.toMillis(hours) - TimeUnit.MINUTES.toMillis(mins))
-                        val timerResult = String.format("%02d:%02d:%02d", hours, mins, secs)
-                        holder.timerTextView.text = timerResult
-                    }
+                if (timer == null) {
+                    timer = object : CountDownTimer(timeDiff, 1000) {
+                        override fun onTick(millisUntilFinished: Long) {
+                            val hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
+                            val mins = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished - TimeUnit.HOURS.toMillis(hours))
+                            val secs = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished - TimeUnit.HOURS.toMillis(hours) - TimeUnit.MINUTES.toMillis(mins))
+                            val timerResult = String.format("%02d:%02d:%02d", hours, mins, secs)
+                            holder.timerTextView.text = timerResult
 
-                    override fun onFinish() {
-                        holder.timerTextView.text = "00:00:00"
+                            // Crear notificación cuando el temporizador llega a 10 o 5 minutos
+                            if (mins.toInt() == 10 || mins.toInt() == 5) {
+                                //createChannel
+                                val notificationManager =
+                                    holder.itemView.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    val channel = NotificationChannel(
+                                        "MY_CHANNEL_ID",
+                                        "Channel Name",
+                                        NotificationManager.IMPORTANCE_DEFAULT
+                                    )
+                                    notificationManager.createNotificationChannel(channel)
+                                }
+                                //scheduleNotification
+                                val intent = Intent(
+                                    holder.itemView.context,
+                                    TareaNotification::class.java
+                                ).apply {
+                                    putExtra("tarea", tarea)
+                                    putExtra("channel", "MY_CHANNEL_ID")
+                                }
+                                val pendingIntent = PendingIntent.getBroadcast(
+                                    holder.itemView.context,
+                                    TareaNotification.NOTIFICATION_ID,
+                                    intent,
+                                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                                )
+                                val alarmManager = holder.itemView.context.getSystemService(ALARM_SERVICE) as AlarmManager
+                                alarmManager.setExact(AlarmManager.RTC_WAKEUP, Calendar.getInstance().timeInMillis , pendingIntent)
+
+                            }
+                        }
+
+                        override fun onFinish() {
+                            holder.timerTextView.text = "00:00:00"
+                        }
                     }
+                    holder.timer = timer
                 }
                 timer.start()
-                holder.timer = timer
             }
         }
     }

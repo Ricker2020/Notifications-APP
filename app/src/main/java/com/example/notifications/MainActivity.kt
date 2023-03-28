@@ -27,9 +27,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var database: AppDataBase
     private lateinit var adapterSeccion: RcVwAdapterSeccion
 
-    companion object {
+/*    companion object {
         const val MY_CHANNEL_ID = "myChannel"
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         addSeccion()
 
         //Canal
-        createChannel()
+        //createChannel()
 
 
 
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
                         database.seccionDao.insert(Seccion(nameseccion = nameseccion))
                         initializeRecyclerView()
                         Toast.makeText(this, "Añadió $nameseccion", Toast.LENGTH_SHORT).show()
-                        scheduleNotification()
+                        //scheduleNotification()
                     }else{
                         Toast.makeText(this, "Sección Existente", Toast.LENGTH_SHORT).show()
                     }
@@ -139,7 +139,9 @@ class MainActivity : AppCompatActivity() {
         }
         return false
     }
-    private fun scheduleNotification() {
+
+    //NOTIFICATIONS
+     /*fun scheduleNotification() {
         val intent = Intent(applicationContext, TareaNotification::class.java)
         intent.putExtra("seccion", Seccion(nameseccion = "new seccion"))
 
@@ -154,10 +156,10 @@ class MainActivity : AppCompatActivity() {
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, Calendar.getInstance().timeInMillis + 5000, pendingIntent)
     }
 
-    private fun createChannel() {
+    fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
-                MY_CHANNEL_ID,
+                MainActivity.MY_CHANNEL_ID,
                 "MySuperChannel",
                 NotificationManager.IMPORTANCE_DEFAULT
             ).apply {
@@ -169,7 +171,7 @@ class MainActivity : AppCompatActivity() {
 
             notificationManager.createNotificationChannel(channel)
         }
-    }
+    }*/
 
 
 }
