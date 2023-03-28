@@ -154,8 +154,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    //EXTERNO
-
+    //ONLY HERE
     private fun showSession(){
         val btnSession=findViewById<ImageView>(R.id.sesion_user)
         btnSession.setOnClickListener {
